@@ -14,10 +14,11 @@ import { chatId } from '~/lib/persistence/useChatHistory';
 import { streamingState } from '~/lib/stores/streaming';
 import { NetlifyDeploymentLink } from '~/components/chat/NetlifyDeploymentLink.client';
 import { VercelDeploymentLink } from '~/components/chat/VercelDeploymentLink.client';
+import { ProfileMenu } from '../ui/ProfileMenu';
 
-interface HeaderActionButtonsProps {}
+interface HeaderActionButtonsProps { }
 
-export function HeaderActionButtons({}: HeaderActionButtonsProps) {
+export function HeaderActionButtons({ }: HeaderActionButtonsProps) {
   const showWorkbench = useStore(workbenchStore.showWorkbench);
   const { showChat } = useStore(chatStore);
   const netlifyConn = useStore(netlifyConnection);
@@ -32,7 +33,17 @@ export function HeaderActionButtons({}: HeaderActionButtonsProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const isStreaming = useStore(streamingState);
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isProfileDropdownOpen, setProfileIsDropdownOpen] = useState(false);
 
+  const toggleDropdown = () => {
+    setProfileIsDropdownOpen(!isProfileDropdownOpen)
+  }
+
+  const openModal = () => {
+    setIsDropdownOpen(false)
+    setIsModalOpen(true)
+  }
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -327,10 +338,10 @@ export function HeaderActionButtons({}: HeaderActionButtonsProps) {
   };
 
   return (
-    <div className="flex">
+    <div className="flex light:bg-white dark:bg-black">
       <div className="relative" ref={dropdownRef}>
         <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden mr-2 text-sm">
-          <Button
+          {/* <Button
             active
             disabled={isDeploying || !activePreview || isStreaming}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -340,7 +351,7 @@ export function HeaderActionButtons({}: HeaderActionButtonsProps) {
             <div
               className={classNames('i-ph:caret-down w-4 h-4 transition-transform', isDropdownOpen ? 'rotate-180' : '')}
             />
-          </Button>
+          </Button> */}
         </div>
 
         {isDropdownOpen && (
@@ -430,6 +441,13 @@ export function HeaderActionButtons({}: HeaderActionButtonsProps) {
         >
           <div className="i-ph:code-bold" />
         </Button>
+      </div>
+      <div className="w-[32px] h-[32px] avatar ml-6">
+        <ProfileMenu />
+      </div>
+      <div className="w-[90px] ml-6">
+        <img src="/koder-logo.png" alt="logo" className="w-[90px] inline-block dark:hidden" />
+        <img src="/koder.png" alt="logo" className="w-[90px] inline-block light:hidden" />
       </div>
     </div>
   );

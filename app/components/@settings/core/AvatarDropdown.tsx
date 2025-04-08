@@ -35,7 +35,7 @@ export const AvatarDropdown = ({ onSelectTab }: AvatarDropdownProps) => {
               decoding="sync"
             />
           ) : (
-            <div className="w-full h-full rounded-full flex items-center justify-center bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500">
+            <div className="w-full h-full rounded-full flex items-center justify-center  light:bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500">
               <div className="i-ph:question w-6 h-6" />
             </div>
           )}

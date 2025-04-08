@@ -19,7 +19,7 @@ export function ChatDescription() {
   }
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center light:bg-white dark:bg-black">
       {editing ? (
         <form onSubmit={handleSubmit} className="flex items-center justify-center">
           <input
@@ -48,7 +48,7 @@ export function ChatDescription() {
         <>
           {currentDescription}
           <TooltipProvider>
-            <WithTooltip tooltip="Rename chat">
+            <WithTooltip tooltip="Renomear chat">
               <div className="flex justify-between items-center p-2 rounded-md bg-bolt-elements-item-backgroundAccent ml-2">
                 <button
                   type="button"
