@@ -21,6 +21,7 @@ interface HeaderActionButtonsProps { }
 export function HeaderActionButtons({ }: HeaderActionButtonsProps) {
   const showWorkbench = useStore(workbenchStore.showWorkbench);
   const { showChat } = useStore(chatStore);
+  const chat = useStore(chatStore);
   const netlifyConn = useStore(netlifyConnection);
   const vercelConn = useStore(vercelConnection);
   const [activePreviewIndex] = useState(0);
@@ -338,7 +339,7 @@ export function HeaderActionButtons({ }: HeaderActionButtonsProps) {
   };
 
   return (
-    <div className="flex light:bg-white dark:bg-black">
+    <div className="flex light:bg-white dark:bg-black light:border-bottom-gray-200 dark:border-bottom-gray-600">
       <div className="relative" ref={dropdownRef}>
         <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden mr-2 text-sm">
           {/* <Button
@@ -416,32 +417,34 @@ export function HeaderActionButtons({ }: HeaderActionButtonsProps) {
           </div>
         )}
       </div>
-      <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden">
-        <Button
-          active={showChat}
-          disabled={!canHideChat || isSmallViewport} // expand button is disabled on mobile as it's not needed
-          onClick={() => {
-            if (canHideChat) {
-              chatStore.setKey('showChat', !showChat);
-            }
-          }}
-        >
-          <div className="i-bolt:chat text-sm" />
-        </Button>
-        <div className="w-[1px] bg-bolt-elements-borderColor" />
-        <Button
-          active={showWorkbench}
-          onClick={() => {
-            if (showWorkbench && !showChat) {
-              chatStore.setKey('showChat', true);
-            }
+      {chat.started && (
+        <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden">
+          <Button
+            active={showChat}
+            disabled={!canHideChat || isSmallViewport} // expand button is disabled on mobile as it's not needed
+            onClick={() => {
+              if (canHideChat) {
+                chatStore.setKey('showChat', !showChat);
+              }
+            }}
+          >
+            <div className="i-bolt:chat text-sm" />
+          </Button>
+          <div className="w-[1px] bg-bolt-elements-borderColor" />
+          <Button
+            active={showWorkbench}
+            onClick={() => {
+              if (showWorkbench && !showChat) {
+                chatStore.setKey('showChat', true);
+              }
 
-            workbenchStore.showWorkbench.set(!showWorkbench);
-          }}
-        >
-          <div className="i-ph:code-bold" />
-        </Button>
-      </div>
+              workbenchStore.showWorkbench.set(!showWorkbench);
+            }}
+          >
+            <div className="i-ph:code-bold" />
+          </Button>
+        </div>
+      )}
       <div className="w-[32px] h-[32px] avatar ml-6">
         <ProfileMenu />
       </div>

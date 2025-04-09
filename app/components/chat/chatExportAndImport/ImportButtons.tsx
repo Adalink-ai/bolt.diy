@@ -49,7 +49,7 @@ export function ImportButtons(importChat: ((description: string, messages: Messa
               reader.onerror = () => toast.error('Failed to read chat file');
               reader.readAsText(file);
             } catch (error) {
-              toast.error(error instanceof Error ? error.message : 'Failed to import chat');
+              toast.error(error instanceof Error ? error.message : 'Falha ao importar chat');
             }
             e.target.value = ''; // Reset file input
           } else {
@@ -76,7 +76,7 @@ export function ImportButtons(importChat: ((description: string, messages: Messa
             )}
           >
             <span className="i-ph:upload-simple w-4 h-4" />
-            Import Chat
+            Importar Chat
           </Button>
           <ImportFolderButton
             importChat={importChat}

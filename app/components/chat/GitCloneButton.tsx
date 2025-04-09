@@ -114,22 +114,21 @@ export default function GitCloneButton({ importChat, className }: GitCloneButton
         const filesMessage: Message = {
           role: 'assistant',
           content: `Cloning the repo ${repoUrl} into ${workdir}
-${
-  skippedFiles.length > 0
-    ? `\nSkipped files (${skippedFiles.length}):
+${skippedFiles.length > 0
+              ? `\nSkipped files (${skippedFiles.length}):
 ${skippedFiles.map((f) => `- ${f}`).join('\n')}`
-    : ''
-}
+              : ''
+            }
 
 <boltArtifact id="imported-files" title="Git Cloned Files" type="bundled">
 ${fileContents
-  .map(
-    (file) =>
-      `<boltAction type="file" filePath="${file.path}">
+              .map(
+                (file) =>
+                  `<boltAction type="file" filePath="${file.path}">
 ${escapeBoltTags(file.content)}
 </boltAction>`,
-  )
-  .join('\n')}
+              )
+              .join('\n')}
 </boltArtifact>`,
           id: generateId(),
           createdAt: new Date(),
@@ -155,7 +154,7 @@ ${escapeBoltTags(file.content)}
     <>
       <Button
         onClick={() => setIsDialogOpen(true)}
-        title="Clone a Git Repo"
+        title="Clonar um Rep. Git"
         variant="outline"
         size="lg"
         className={classNames(
@@ -170,7 +169,7 @@ ${escapeBoltTags(file.content)}
         disabled={!ready || loading}
       >
         <span className="i-ph:git-branch w-4 h-4" />
-        Clone a Git Repo
+        Clonar um Rep. Git
       </Button>
 
       <RepositorySelectionDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} onSelect={handleClone} />
