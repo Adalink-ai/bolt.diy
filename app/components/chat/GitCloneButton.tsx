@@ -27,7 +27,8 @@ const IGNORE_PATTERNS = [
   '**/npm-debug.log*',
   '**/yarn-debug.log*',
   '**/yarn-error.log*',
-  '**/*lock.json',
+
+  // Include this so npm install runs much faster '**/*lock.json',
   '**/*lock.yaml',
 ];
 
@@ -70,7 +71,7 @@ export default function GitCloneButton({ importChat, className }: GitCloneButton
           // Skip binary files
           if (
             content instanceof Uint8Array &&
-            !filePath.match(/\.(txt|md|astro|mjs|js|jsx|ts|tsx|json|html|css|scss|less|yml|yaml|xml|svg)$/i)
+            !filePath.match(/\.(txt|md|astro|mjs|js|jsx|ts|tsx|json|html|css|scss|less|yml|yaml|xml|svg|vue|svelte)$/i)
           ) {
             skippedFiles.push(filePath);
             continue;
@@ -114,21 +115,22 @@ export default function GitCloneButton({ importChat, className }: GitCloneButton
         const filesMessage: Message = {
           role: 'assistant',
           content: `Cloning the repo ${repoUrl} into ${workdir}
-${skippedFiles.length > 0
-              ? `\nSkipped files (${skippedFiles.length}):
+${
+  skippedFiles.length > 0
+    ? `\nSkipped files (${skippedFiles.length}):
 ${skippedFiles.map((f) => `- ${f}`).join('\n')}`
-              : ''
-            }
+    : ''
+}
 
 <boltArtifact id="imported-files" title="Git Cloned Files" type="bundled">
 ${fileContents
-              .map(
-                (file) =>
-                  `<boltAction type="file" filePath="${file.path}">
+  .map(
+    (file) =>
+      `<boltAction type="file" filePath="${file.path}">
 ${escapeBoltTags(file.content)}
 </boltAction>`,
-              )
-              .join('\n')}
+  )
+  .join('\n')}
 </boltArtifact>`,
           id: generateId(),
           createdAt: new Date(),
@@ -161,7 +163,7 @@ ${escapeBoltTags(file.content)}
           'gap-2 bg-bolt-elements-background-depth-1',
           'text-bolt-elements-textPrimary',
           'hover:bg-bolt-elements-background-depth-2',
-          'border-[rgba(0,0,0,0.08)] dark:border-[rgba(255,255,255,0.08)]',
+          'border border-bolt-elements-borderColor',
           'h-10 px-4 py-2 min-w-[120px] justify-center',
           'transition-all duration-200 ease-in-out',
           className,
